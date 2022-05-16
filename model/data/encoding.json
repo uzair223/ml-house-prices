@@ -1,0 +1,12 @@
+{
+  "property_type": {
+    "Terrace bungalow": 0,
+    "Terrace house": 1,
+    "Flat": 2,
+    "Semi-detached bungalow": 3,
+    "Semi-detached house": 4,
+    "Maisonette": 5,
+    "Detached bungalow": 6,
+    "Detached house": 7
+  }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="static/css/styles.css" />
+
+        <script
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
+        <script
+        src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"
+        integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA="
+        crossorigin="anonymous"></script>
+
+        <script type="text/javascript" src="static/js/script.js"></script>
+    </head>
+
+    <body>
+        <div class="card center">
+            <div class="card__image">	
+                <h1 class="card__heading">
+                    Get an instant house valuation today
+                </h1>
+            </div>
+            
+            <form id="form" style="padding: 1rem;">
+                <div class="form__group">
+                    <input required class="form__field" placeholder="Postcode" id="postcode" name="postcode"/>
+                    <label for="postcode" class="form__label">Postcode</label>
+                    <span class="error"></span>
+                </div>
+
+                <div class="form__group">
+                    <input required type="number" class="form__field" placeholder="Year" id="year" name="year" min="1995" value="2022" max="2035" step="any"/>
+                    <label for="year" class="form__label">Year</label>
+                    <span class="error"></span>
+                </div>
+                
+                <div class="form__group">
+                    <select class="form__field" id="property_type" name="property_type" required>
+                        <option hidden> </option>
+                        <option value="Detached house">Detached house</option>
+                        <option value="Semi-detached house">Semi-detached house</option>
+                        <option value="Terrace house">Terrace house</option>
+                        <option value="Detached bungalow">Detached bungalow</option>
+                        <option value="Semi-detached bungalow">Semi-detached bungalow</option>
+                        <option value="Terrace bungalow">Terrace bungalow</option>
+                        <option value="Flat">Flat</option>
+                        <option value="Maisonette">Maisonette</option>
+                    </select>
+                    <label for="property_type" class="form__label">Property type</label>
+                    <span class="error"></span>
+                </div>
+
+                <div class="form__group">
+                    <input required type="number" class="form__field" placeholder="Total floor area" id="total_floor_area" name="total_floor_area" min="40" step="any"/>
+                    <label for="total_floor_area" class="form__label">Total floor area</label>
+                    <span class="error"></span>
+                </div>
+                
+                <div class="form__group">
+                    <input required type="number" class="form__field" placeholder="Number of habitable rooms" id="number_habitable_rooms" name="number_habitable_rooms" min="1"/>
+                    <label for="number_habitable_rooms" class="form__label">Number of habitable rooms</label>
+                    <span class="error"></span>
+                </div>
+
+                <div class="action">
+                    <input type="submit" class="action__btn" value="How much does my house cost?">
+                    <span class="error"></span>
+                    <p style="font-size: 0.9rem; text-align: center;">
+                        A-Level Project - 
+                        See documentation <a href="https://uzair223.github.io/posts/" target="_blank">here</a> 
+                        and source code <a href="https://ml-house-prices.herokuapp.com/" target="_blank">here</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal" id="output">
+            <div class="card">
+                <a href="" title="Close" class="modal__close">Close</a>
+                <h1 style="text-align: center;" class="heading__text">
+                    Our prediction for
+                    <span id="output__postcode"></span>
+                    in
+                    <span id="output__year"></span>
+                </h1>
+                <div id="map" style="width: 100%; height:300px; border-radius: 10px;"></div> 
+
+                <div id="output__estimate">
+                    <span id="output__low"></span>
+                    <span id="output__point"></span>
+                    <span id="output__high"></span>
+                </div>
+            </div>
+        </div>
+
+        <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdwqyQUmDBGf08AzCEIGfueA6RZ6vVhBY"></script>
+    </body>
+</html>
