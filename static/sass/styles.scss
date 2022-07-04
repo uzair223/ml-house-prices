@@ -165,15 +165,6 @@ select.form__field:invalid ~ .form__label{
     bottom: 0;
     left: 0;
     z-index: 999;
-    visibility: hidden;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s;
-    &:target {
-        visibility: visible;
-        opacity: 1;
-        pointer-events: auto;
-    }
     & > div {
         position: absolute;
         padding-top: 2rem;
