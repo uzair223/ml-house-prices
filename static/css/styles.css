@@ -16,7 +16,6 @@ body {
   padding: .75rem; }
 
 .card__image {
-  margin: auto;
   border-radius: 10px;
   overflow: hidden;
   padding-bottom: 65%;
@@ -127,15 +126,7 @@ select.form__field:invalid ~ .form__label {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 999;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s; }
-  .modal:target {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto; }
+  z-index: 999; }
   .modal > div {
     position: absolute;
     padding-top: 2rem;

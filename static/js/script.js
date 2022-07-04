@@ -100,7 +100,7 @@ function submitForm(e) {
         disableDefaultUI: true,
         zoom: 17,
       });
-      $("#output").show();
+      $("#output").fadeIn(500).show();
     },
     error: handleError,
   });
@@ -111,6 +111,6 @@ $(function () {
   $(".modal").hide();
   $("#form").submit(submitForm);
   $(".modal__close").click(function (e) {
-    $(this).parents(".modal").hide();
+    $(this).parents(".modal").fadeOut(500).show();
   });
 });
