@@ -1,0 +1,163 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <title>ML House Valuation</title>
+</head>
+
+<body class="{{'shake' if error}}" style="{{'overflow: hidden;' if modal}}">
+    <div class="card">
+        <div class="card__hero">
+            <img
+                src="https://images.unsplash.com/photo-1540663580421-b05a3e7099ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1206&q=80" />
+            <h1 class="heading__text">
+                Get an instant house valuation today
+            </h1>
+        </div>
+
+        <form id="form" action="/api/predict">
+            <input hidden name="redirect" value="true" />
+
+            <div class="form__group">
+                <input required class="form__field" placeholder=" " id="postcode" name="postcode" />
+                <label for="postcode" class="form__label">Postcode</label>
+            </div>
+
+            <div class="form__group">
+                <input required type="number" class="form__field" placeholder=" " id="year" name="year" min="1995"
+                    value="2022" max="2035" step="any" />
+                <label for="year" class="form__label">Year</label>
+            </div>
+
+            <div class="form__group">
+                <select class="form__field" id="property_type" name="property_type" required>
+                    <option hidden> </option>
+                    <option value="Detached house">Detached house</option>
+                    <option value="Semi-detached house">Semi-detached house</option>
+                    <option value="Terrace house">Terrace house</option>
+                    <option value="Detached bungalow">Detached bungalow</option>
+                    <option value="Semi-detached bungalow">Semi-detached bungalow</option>
+                    <option value="Terrace bungalow">Terrace bungalow</option>
+                    <option value="Flat">Flat</option>
+                    <option value="Maisonette">Maisonette</option>
+                </select>
+                <label for="property_type" class="form__label">Property type</label>
+
+            </div>
+
+            <div class="form__group">
+                <input required type="number" class="form__field" placeholder=" " id="total_floor_area"
+                    name="total_floor_area" min="40" step="any" />
+                <label for="total_floor_area" class="form__label">Total floor area
+                    <small>(m<sup>2</sup>)</small></label>
+
+            </div>
+
+            <div class="form__group">
+                <input required type="number" class="form__field" placeholder=" " id="number_habitable_rooms"
+                    name="number_habitable_rooms" min="1" />
+                <label for="number_habitable_rooms" class="form__label">Number of habitable rooms</label>
+
+            </div>
+
+            <div class="action">
+                <input type="submit" class="action__btn" value="How much does my house cost?">
+
+                <p style="font-size: 0.75rem; text-align: center;">
+                    A-Level Project &longrightarrow;
+                    See documentation <a href="https://uzair223.github.io/posts/" target="_blank">here</a>
+                    and source code <a href="https://github.com/uzair223/ml-house-prices/" target="_blank">here</a>
+                </p>
+            </div>
+        </form>
+    </div>
+
+    {% if error %}
+    <div class="error">
+        {{error}}
+    </div>
+    <script>
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth'
+        })
+    </script>
+    {%endif%}
+
+    {% if modal %}
+    <div class="modal" style="overflow: auto;">
+        <div>
+            <div class="card" style="position:relative; padding-top:2rem;">
+                <a id="modal__close" class="modal__close" href="{{ url_for('render_landing') }}">Close</a>
+                <h1>{{pcd_data.ward_name}}</h1>
+                <h2>{{pcd_data.laua_name}}</h2>
+                <div class="card__hero">
+                    <div id="map" style="aspect-ratio:5/3;"></div>
+                </div>
+                <h3>Our prediction for {{pcd_data.pcd}}</h3>
+                <div class="prediction">
+                    <span>£{{low}}</span>
+                    <span class="prediction__middle">£{{point}}</span>
+                    <span>£{{high}}</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h1>Area classifications</h1>
+                <h3>Output area classification <small>(2011 census)</small></h3>
+                <span>{{pcd_data.oac11.supergroup}}</span>
+                <span>&emsp;&rarrhk; {{pcd_data.oac11.group}}</span>
+                <span>&emsp;&emsp;&rarrhk; {{pcd_data.oac11.subgroup}} <code>({{pcd_data.oac11.code}})</code></span>
+                {% if pcd_data.imd %}
+                <h3>Indices of deprivation (2019)</h3>
+                <span><strong>{{"{:,}".format(pcd_data.imd)}}</strong> out of 32,844 in England <small>(where 1 is the
+                        most deprived)</small></span>
+                <span><strong>{{(pcd_data.imd/32844*100)|round|int}}%</strong> of LSOAs are more deprived than this
+                    one.</span>
+                {%endif%}
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const center = {{ pcd_data.location }};
+        let map;
+        window.initMap = function () {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center,
+                disableDefaultUI: true,
+                zoom: 16
+            });
+            new google.maps.Marker({
+                position: center,
+                map,
+            });
+        };
+
+        $(".modal__close").one("click", function (e) {
+            // animate modal closing then "redirect" to landing page
+            $(".modal")
+                .removeClass("modal")
+                .addClass("modal__exiting")
+                .one("animationend", () => {
+                    e.target.click();
+                });
+            return false;
+        });
+    </script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDn19axHSHB9IAFXQqkUMc2ktX15ILlBpw&callback=initMap">
+        </script>
+    {%endif%}
+
+
+</body>
+
+</html>
