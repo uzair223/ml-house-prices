@@ -17,7 +17,7 @@
             <img
                 src="https://images.unsplash.com/photo-1540663580421-b05a3e7099ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1206&q=80" />
             <h1 class="heading__text">
-                Get an instant house valuation today
+                Get an instant valuation today!
             </h1>
         </div>
 
@@ -95,25 +95,27 @@
         <div>
             <div class="card" style="position:relative; padding-top:2rem;">
                 <a id="modal__close" class="modal__close" href="{{ url_for('render_landing') }}">Close</a>
-                <h1>{{pcd_data.ward_name}}</h1>
-                <h2>{{pcd_data.laua_name}}</h2>
+                <div>
+                    <h1>{{pcd_data.ward_name}}</h1>
+                    <span style="font-size: 1.25rem;">{{pcd_data.laua_name}}</span>
+                </div>
                 <div class="card__hero">
                     <div id="map" style="aspect-ratio:5/3;"></div>
                 </div>
-                <h3>Our prediction for {{pcd_data.pcd}}</h3>
+                <h2>Our prediction for {{pcd_data.pcd}}</h2>
                 <div class="prediction">
                     <span>£{{low}}</span>
                     <span class="prediction__middle">£{{point}}</span>
                     <span>£{{high}}</span>
                 </div>
-            </div>
-
-            <div class="card">
-                <h1>Area classifications</h1>
+                <br>
+                <h2>Area classifications</h2>
                 <h3>Output area classification (2011)</h3>
-                <span>{{pcd_data.oac11.supergroup}}</span>
-                <span>&emsp;&rarrhk; {{pcd_data.oac11.group}}</span>
-                <span>&emsp;&emsp;&rarrhk; {{pcd_data.oac11.subgroup}} <code>({{pcd_data.oac11.code}})</code></span>
+                <span>{{pcd_data.oac11.supergroup}}<br>
+                    &emsp;&rdca; {{pcd_data.oac11.group}}<br>
+                    &emsp;&emsp;&rdca; {{pcd_data.oac11.subgroup}} <code>({{pcd_data.oac11.code}})</code>
+                </span>
+                <br>
                 {% if pcd_data.imd %}
                 <h3>Indices of deprivation (2019)</h3>
                 <span><strong>{{"{:,}".format(pcd_data.imd)}}</strong> out of 32,844 in England <small>(where 1 is the
@@ -121,6 +123,7 @@
                 <span><strong>{{(pcd_data.imd/32844*100)|round|int}}%</strong> of LSOAs are more deprived than this
                     one.</span>
                 {%endif%}
+
             </div>
         </div>
 

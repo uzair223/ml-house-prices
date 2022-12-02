@@ -13,6 +13,10 @@ import utils
 app = Flask(__name__)
 model_ = build_model()
 
+if(app.debug):
+    from sass import compile
+    compile(dirname=("static/sass", "static/css"))
+
 @app.errorhandler(Exception)
 def handle_exception(e):
     if isinstance(e, (HTTPException)):
@@ -60,9 +64,3 @@ def render_result():
                                 point=f'{int(float(f"{point:.4g}")):,}',
                                 low=utils.formatNumber(low, 3),
                                 modal=True)
-
-if __name__ == "__main__":
-    # compiling sass file into static css
-    from sass import compile
-    compile(dirname=("static/sass", "static/css"))
-    app.run(threaded=True)
