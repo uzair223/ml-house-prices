@@ -36,6 +36,11 @@ def predict():
     alpha = args.pop("alpha", 0.45)
     postcode = args.pop("postcode")
 
+    try:
+        alpha = float(alpha)
+    except ValueError:
+        alpha = None
+
     # fetching data about postcode using findthatpostcode.uk api
     pcd_data = utils.findthatpostcode(postcode)
     args = dict(**args, **pcd_data["location"])

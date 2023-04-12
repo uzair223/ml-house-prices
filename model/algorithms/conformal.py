@@ -15,7 +15,7 @@ class ConformalRegression(object):
     def predict(self, X, alpha = None):
         yhat = self.model.predict(X)
 
-        if alpha is None:
+        if alpha is None or alpha==0:
             return yhat
         if alpha >= 1 or alpha <= 0:
             raise ValueError("'alpha' must be in interval (0, 1) or None")

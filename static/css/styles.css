@@ -2,8 +2,7 @@
 body {
   font-family: "DM Sans", sans-serif;
   color: #585563;
-  background-color: #f1f3fb;
-  padding: 0.1rem 2rem; }
+  background-color: #f1f3fb; }
 
 .card, .error {
   margin: auto;
@@ -12,10 +11,13 @@ body {
   flex-direction: column;
   max-height: 100%;
   max-width: 480px;
-  min-width: 360px;
   background-color: white;
   border-radius: 10px;
-  padding: 1rem; }
+  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
 
 .error {
   margin-bottom: 1rem;
@@ -139,16 +141,6 @@ select.form__field:invalid ~ .form__label {
   .action__btn:hover {
     background-position: 100% 0; }
 
-@keyframes modal__animateIn {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -70%); }
-  10% {
-    opacity: 0; }
-  100% {
-    transform: translate(-50%, -50%);
-    opacity: 100; } }
-
 @keyframes shake__animate {
   0% {
     transform: rotate(-0.5deg); }
@@ -158,16 +150,6 @@ select.form__field:invalid ~ .form__label {
 .shake {
   animation: 0.2s ease 0s 2.5 shake__animate; }
 
-@keyframes modal__animateOut {
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -70%); }
-  90% {
-    opacity: 0; }
-  0% {
-    transform: translate(-50%, -50%);
-    opacity: 100; } }
-
 @keyframes backdrop__animate {
   0% {
     background-color: transparent;
@@ -175,6 +157,16 @@ select.form__field:invalid ~ .form__label {
   100% {
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(2px); } }
+
+@keyframes modal__animate {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0%); }
+  33% {
+    opacity: 0; }
+  100% {
+    opacity: 100;
+    transform: translate(-50%, -50%); } }
 
 .modal {
   position: fixed;
@@ -187,11 +179,7 @@ select.form__field:invalid ~ .form__label {
   left: 0;
   z-index: 999; }
   .modal > div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: 1.5s ease 0s 1 modal__animateIn; }
+    animation: 2s ease 0s 1 modal__animate; }
 
 .modal__exiting {
   position: fixed;
@@ -203,12 +191,8 @@ select.form__field:invalid ~ .form__label {
   left: 0;
   z-index: 999; }
   .modal__exiting > div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -70%);
-    opacity: 0;
-    animation: 1.5s ease 0s 1 modal__animateOut; }
+    animation: 2s ease 0s 1.5 modal__animate reverse;
+    opacity: 0; }
 
 .modal__close {
   font: inherit;

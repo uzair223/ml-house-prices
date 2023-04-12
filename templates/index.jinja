@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -68,12 +69,6 @@
 
             <div class="action">
                 <input type="submit" class="action__btn" value="How much does my house cost?">
-
-                <p style="font-size: 0.75rem; text-align: center;">
-                    A-Level Project &longrightarrow;
-                    See documentation <a href="https://uzair223.github.io/posts/" target="_blank">here</a>
-                    and source code <a href="https://github.com/uzair223/ml-house-prices/" target="_blank">here</a>
-                </p>
             </div>
         </form>
     </div>
@@ -92,41 +87,38 @@
 
     {% if modal %}
     <div class="modal" style="overflow: auto;">
-        <div>
-            <div class="card" style="position:relative; padding-top:2rem;">
-                <a id="modal__close" class="modal__close" href="{{ url_for('render_landing') }}">Close</a>
-                <div>
-                    <h1>{{pcd_data.ward_name}}</h1>
-                    <span style="font-size: 1.25rem;">{{pcd_data.laua_name}}</span>
-                </div>
-                <div class="card__hero">
-                    <div id="map" style="aspect-ratio:5/3;"></div>
-                </div>
-                <h2>Our prediction for {{pcd_data.pcd}}</h2>
-                <div class="prediction">
-                    <span>£{{low}}</span>
-                    <span class="prediction__middle">£{{point}}</span>
-                    <span>£{{high}}</span>
-                </div>
-                <br>
-                <h2>Area classifications</h2>
-                <h3>Output area classification (2011)</h3>
-                <span>{{pcd_data.oac11.supergroup}}<br>
-                    &emsp;&rdca; {{pcd_data.oac11.group}}<br>
-                    &emsp;&emsp;&rdca; {{pcd_data.oac11.subgroup}} <code>({{pcd_data.oac11.code}})</code>
-                </span>
-                <br>
-                {% if pcd_data.imd %}
-                <h3>Indices of deprivation (2019)</h3>
-                <span><strong>{{"{:,}".format(pcd_data.imd)}}</strong> out of 32,844 in England <small>(where 1 is the
-                        most deprived)</small></span>
-                <span><strong>{{(pcd_data.imd/32844*100)|round|int}}%</strong> of LSOAs are more deprived than this
-                    one.</span>
-                {%endif%}
-
+        <div class="card" style="padding-top:2rem;">
+            <a id="modal__close" class="modal__close" href="{{ url_for('render_landing') }}">Close</a>
+            <div>
+                <h1>{{pcd_data.ward_name}}</h1>
+                <span style="font-size: 1.25rem;">{{pcd_data.laua_name}}</span>
             </div>
-        </div>
+            <div class="card__hero">
+                <div id="map" style="aspect-ratio:5/3;"></div>
+            </div>
+            <h2>Our prediction for {{pcd_data.pcd}}</h2>
+            <div class="prediction">
+                <span>£{{low}}</span>
+                <span class="prediction__middle">£{{point}}</span>
+                <span>£{{high}}</span>
+            </div>
+            <br>
+            <h2>Area classifications</h2>
+            <h3>Output area classification (2011)</h3>
+            <span>{{pcd_data.oac11.supergroup}}<br>
+                &emsp;&rdca; {{pcd_data.oac11.group}}<br>
+                &emsp;&emsp;&rdca; {{pcd_data.oac11.subgroup}} <code>({{pcd_data.oac11.code}})</code>
+            </span>
+            <br>
+            {% if pcd_data.imd %}
+            <h3>Indices of deprivation (2019)</h3>
+            <span><strong>{{"{:,}".format(pcd_data.imd)}}</strong> out of 32,844 in England <small>(where 1 is the
+                    most deprived)</small></span>
+            <span><strong>{{(pcd_data.imd/32844*100)|round|int}}%</strong> of LSOAs are more deprived than this
+                one.</span>
+            {%endif%}
 
+        </div>
     </div>
 
     <script>

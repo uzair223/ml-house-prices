@@ -46,12 +46,12 @@ class Predictor(object):
                 raise BadRequest(f"Invalid datatype: {k}")
         inp_ = self.xtransform(inp_)  # normalising input
         # interval prediction
-        if alpha is not None:
+        if alpha is not None and alpha != 0:
             yhat, interval = [
                 self.ytransform(y).reshape(-1)
                 for y in self.model.predict(inp_, alpha)
             ]
             return {"low": interval[0], "point": yhat[0], "high": interval[1]}
         # point prediction
-        yhat = self.ytransform(self.model.predict(inp_))
+        yhat = self.ytransform(self.model.predict(inp_)[0,0])
         return {"point": yhat}

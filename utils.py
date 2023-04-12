@@ -1,7 +1,5 @@
 import requests
 from werkzeug.exceptions import BadRequest
-from flask import Response
-import json
 
 # Utility function to format big numbers
 # 128,956 => 129k, 1,245,234 => 1.25M

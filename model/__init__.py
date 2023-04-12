@@ -19,28 +19,34 @@ MODEL_PATH = os.path.join(DATA_PATH, "model.bin")
 ENCODING_PATH = os.path.join(DATA_PATH, "encoding.json")
 SCALING_PATH = os.path.join(DATA_PATH, "scaling.json")
 RESID_PATH = os.path.join(DATA_PATH, "conf_resid.bin")
-ENCODING = json.load(open(ENCODING_PATH, "r"))
-PREPROCESS = json.load(open(SCALING_PATH, "r"))
 
 
-def xtransform(inp):
-    inp_ = inp.copy()
-    for k, v in inp_.items():
-        feat = PREPROCESS.get(k, {"mean": 0., "std": 1.})
-        # rescaling features to normalised values
-        inp_[k] = (v - feat["mean"]) / feat["std"]
-    return array([list(inp_.values())])
+def xtransform(scaling):
+    def func(inp):
+        inp_ = inp.copy()
+        for k, v in inp_.items():
+            feat = scaling.get(k, {"mean": 0., "std": 1.})
+            # rescaling features to normalised values
+            inp_[k] = (v - feat["mean"]) / feat["std"]
+        return array([list(inp_.values())])
+    return func
 
 
-OUTPUT = PREPROCESS.pop("price")
+def ytransform(output_scale):
+    def func(inp):
+        # reversing normalisation
+        return inp * output_scale["std"] + output_scale["mean"]
+    return func
 
-
-def ytransform(inp):
-    # reversing normalisation
-    return inp * OUTPUT["std"] + OUTPUT["mean"]
-
+# loading encoding and scaling factors
+def load_json_files():
+    encoding = json.load(open(ENCODING_PATH, "r"))
+    scaling = json.load(open(SCALING_PATH, "r"))
+    output_scale = scaling.pop("price") # separating price scaling factors from features
+    return encoding, scaling, output_scale
 
 def build_model():
+    encoding, scaling, output_scale = load_json_files()
     conf = ConformalRegression(joblib.load(MODEL_PATH))
     conf.resid_ = joblib.load(RESID_PATH)
-    return Predictor(conf, FEATURES, ENCODING, xtransform, ytransform)
+    return Predictor(conf, FEATURES, encoding, xtransform(scaling), ytransform(output_scale))
