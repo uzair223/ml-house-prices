@@ -4,4 +4,8 @@ Created dataset from various sources including the HM Land Registry, EPC data, O
 Implemented (from scratch):
 - Multiple Linear Regression
 - Decision Tree
-- Multilayer Perceptron
+- Multilayer Perceptron (achieved 0.83 R2-score) including Adam optimisation and backpropagation for the learning algorithm.
+
+## Screenshots
+![ui](screenshot0.png)
+![ui result](screenshot1.png)
