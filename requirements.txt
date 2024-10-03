@@ -4,4 +4,3 @@ Werkzeug
 numpy
 joblib
 requests
-libsass

@@ -13,10 +13,6 @@ import utils
 app = Flask(__name__)
 model_ = build_model()
 
-if(app.debug):
-    from sass import compile
-    compile(dirname=("static/sass", "static/css"))
-
 @app.errorhandler(Exception)
 def handle_exception(e):
     if isinstance(e, (HTTPException)):
